@@ -1,0 +1,17 @@
+.wave-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.bar {
+  width: 6px;
+  height: 20px;
+  /* background-color is now set by JS */
+  /* animation and animation-delay are removed */
+}
+
+/* Removed @keyframes soundWave */
+/* Removed .bar:nth-child animation-delay rules */
