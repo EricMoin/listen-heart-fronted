@@ -1,73 +1,52 @@
-import { MainHeader } from '@/components/main-header';
+import { WaveIcon } from '@/components/wave-icon';
 import './page.scss';
 import { createSignal, For, Show } from 'solid-js';
-import { WaveIcon } from '@/components/wave-icon';
+
 export function HomeScreen() {
-  return (
-    <main class="main-screen">
-      <MainHeader></MainHeader>
-      <MainPanel></MainPanel>
-    </main>
-  );
-}
+  const [recording, setRecording] = createSignal(false);
+  const [playing, setPlaying] = createSignal(false);
 
-export function MainPanel() {
-  const [isRecording, setIsRecording] = createSignal(false);
   return (
-    <div class="main-panel">
-      <header class="panel-header">
-        <div class="panel-header-text ">
-          <span class="header-title-text">How are you feeling today?</span>
-          <span class="header-subtitle-text">You’ve been on my mind</span>
-        </div>
-      </header>
-      <div class="panel-body">
-        <For each={Array(20).fill(0)}>
-          {(item, index) => (
-            <Message isRobot={index() % 2 === 0} content={index().toString()} />
-          )}
-        </For>
-      </div>
-      <div
-        class="panel-footer"
-        onMouseDown={() => {
-          setIsRecording(true);
-        }}
-        onMouseUp={() => setIsRecording(false)}
-        onMouseLeave={() => setIsRecording(false)}
-        onTouchStart={() => setIsRecording(true)}
-        onTouchEnd={() => setIsRecording(false)}
-      >
-        <WaveIcon
-          isAnimating={isRecording()}
-          animationSpeed={800}
-          barCount={8}
-        />
-        <Show when={!isRecording()}>
-          <span>Touch to Speak</span>
-        </Show>
-      </div>
-    </div>
-  );
-}
+    <div class="metallic-bg hover-scale">
+      <div class="mental-health-card">
+        <div class="card-body">
+          <h1>心灵树洞</h1>
+          <p class="subtitle">把心事说给树洞听，我会温柔地回应你</p>
 
-type MessageProps = {
-  isRobot: boolean;
-  content: string;
-};
-export function Message({ isRobot, content }: MessageProps) {
-  return (
-    <div class={`message ${isRobot ? 'robot-message' : ''}`}>
-      <Show when={!isRobot}>
-        <div class="user-content">
-          <span>{content}</span>
+          {/* 录音按钮 */}
+          <div class="recording-button-area">
+            <div
+              onMouseDown={() => setRecording(true)}
+              onMouseUp={() => setRecording(false)}
+              onTouchStart={() => setRecording(true)}
+              onTouchEnd={() => setRecording(false)}
+              class={`record-button ${recording() ? 'recording' : ''}`}
+            >
+              <div class={`inner-circle ${recording() ? 'recording' : ''}`}>
+                <svg viewBox="0 0 24 24">{/* SVG 内容保持一致 */}</svg>
+              </div>
+            </div>
+            <p class="record-label">
+              {recording() ? '松开停止录音' : '按住说话'}
+            </p>
+          </div>
+
+          {/* 播放状态 */}
+          <Show when={playing()}>
+            <div class="playing-status">
+              <div class="flex items-center justify-center space-x-1 mb-2">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <p class="status-text">正在为你轻声回应...</p>
+            </div>
+          </Show>
+
+          {/* 波形动画 */}
+          <WaveIcon isAnimating={recording()} barCount={15} />
         </div>
-      </Show>
-      <Show when={isRobot}>
-        <div class="robot-content">
-          <span>{content}</span>
-        </div>
-      </Show>
+      </div>
     </div>
   );
 }

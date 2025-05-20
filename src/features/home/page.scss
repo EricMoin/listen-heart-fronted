@@ -1,107 +1,203 @@
-.main-screen {
-  background-color: #f5f7fa;
+$primary-gradient: linear-gradient(135deg, #a855f7, #ec4899, #f87171);
+
+@mixin transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@mixin shadow-lg {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+@mixin shadow-inner {
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes wave {
+  0% {
+    transform: scaleY(0.6);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.metallic-bg {
+  background: $primary-gradient;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 2em;
-  .main-panel {
-    height: 70vh;
-    width: 60vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 1em;
-    box-shadow: 0 0 10 0 rgba(0, 0, 0, 0.1);
-    .panel-header {
-      width: 100%;
-      padding: 2em 0;
-      border-radius: 1em 1em 0 0;
-      background-color: rgb(86, 162, 212);
-      .panel-header-text {
-        margin-left: 1.5em;
+  justify-content: center;
+  padding: 1rem;
+  @include transition-all;
+  transition-duration: 500ms;
+
+  &.hover-scale:hover {
+    transform: scale(1.05);
+  }
+}
+
+.mental-health-card {
+  max-width: 32rem;
+  width: 100%;
+  background-color: #ffffff65;
+  --webkit-backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  @include transition-all;
+  transition-duration: 500ms;
+
+  .card-body {
+    padding: 1.5rem;
+    text-align: center;
+
+    h1 {
+      font-size: 1.875rem; /* text-3xl */
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    p.subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+
+    // 录音按钮区域
+    .recording-button-area {
+      margin-bottom: 2rem;
+
+      .record-button {
+        width: 8rem;
+        height: 8rem;
+        margin: 0 auto 1rem;
+        border-radius: 9999px;
         display: flex;
-        flex-direction: column;
-        gap: 0.8em;
-        justify-content: start;
-        align-items: start;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        @include transition-all;
+        @include shadow-lg;
+        @include shadow-inner;
+        @extend .hover-scale;
 
-        .header-title-text {
-          color: #fff;
-          font-size: 1.5em;
-          font-family: Agbalumo;
+        &.recording {
+          background-color: #ef4444;
+          box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+          transform: scale(1.05);
         }
-        .header-subtitle-text {
-          color: #fff;
-          font-size: 1em;
-          font-family: Agbalumo;
+
+        .inner-circle {
+          width: 5rem;
+          height: 5rem;
+          border-radius: 9999px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(255, 255, 255, 0.5);
+
+          &.recording {
+            background-color: #f87171;
+          }
+
+          svg {
+            width: 2.5rem;
+            height: 2.5rem;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+          }
         }
       }
-    }
-    .panel-body {
-      overflow-y: auto;
-      width: 100%;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: start;
-      align-items: center;
 
-      gap: 0.5em;
-      padding: 1em 0;
+      .record-label {
+        color: white;
+        opacity: 0.9;
+        font-weight: 500;
+        font-size: 1rem;
+      }
     }
-    .panel-footer {
-      height: 8vh;
-      width: 100%;
-      border-radius: 0 0 1em 1em;
-      background-color: rgb(86, 162, 212);
 
+    // 播放状态
+    .playing-status {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 1rem;
+      animation: pulse 2s infinite;
+
+      .dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        background-color: white;
+        border-radius: 9999px;
+        animation: bounce 1s infinite alternate;
+      }
+
+      .dot:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      p.status-text {
+        color: white;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+      }
+    }
+
+    // 音频波形
+    .audio-wave-animation {
+      height: 5rem;
       display: flex;
-      flex-direction: row;
       justify-content: center;
-      align-items: center;
-      gap: 1.5em;
-      cursor: pointer;
-      span {
-        color: #fff;
-        font-size: 1.5em;
-        font-family: Agbalumo;
+      align-items: flex-end;
+      gap: 0.25rem;
+
+      .bar {
+        width: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 9999px;
+        @keyframes wave {
+          0% {
+            transform: scaleY(0.6);
+          }
+          100% {
+            transform: scaleY(1);
+          }
+        }
       }
     }
-    .panel-footer:hover {
-      background-color: rgba(86, 162, 212, 0.884);
+
+    // 功能说明
+    .feature-description {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-top: 1rem;
     }
   }
 }
 
-.message {
-  width: 85%;
+.footer-decoration {
+  margin-top: 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  span {
-    text-align: end;
-    font-family:
-      Noto Sans SC,
-      Noto Sans;
-    color: #ffffff;
+  p:first-child {
+    margin-bottom: 0.25rem;
   }
-  .user-content {
-    max-width: 90%;
-    background-color: rgb(67, 142, 196);
-    border-radius: 0.5em;
-    padding: 0.5em 1em;
-  }
-  .robot-content {
-    max-width: 90%;
-    background-color: rgb(67, 142, 196);
-    border-radius: 0.5em;
-    padding: 0.5em 1em;
-  }
-}
-.robot-message {
-  justify-content: flex-start;
 }
