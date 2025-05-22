@@ -133,6 +133,8 @@ $primary-gradient: linear-gradient(135deg, #a855f7, #ec4899, #f87171);
       border-radius: 1rem;
       animation: pulse 2s infinite;
 
+      color: white;
+
       .dot {
         width: 0.75rem;
         height: 0.75rem;
@@ -156,6 +158,13 @@ $primary-gradient: linear-gradient(135deg, #a855f7, #ec4899, #f87171);
         font-size: 0.875rem;
         margin-top: 0.5rem;
       }
+      p.status-text.error-text {
+        color: #ef4444;
+      }
+    }
+
+    .audio-player-container {
+      color: white;
     }
 
     // 音频波形
